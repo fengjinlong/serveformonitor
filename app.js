@@ -10,7 +10,7 @@ const bodyParser = require("koa-bodyparser");
 const cors = require("koa2-cors");
 let app = new Koa();
 app.use(cors());
-const dataArr = [];
+let dataArr = [];
 // render(app, {
 //   root: path.join(__dirname, "views"), //规定视图的位置
 //   extname: ".html", //后缀名
@@ -28,7 +28,7 @@ router.get("/findAll", async (ctx) => {
   let lists = dataArr;
   ctx.body = lists;
 });
-router.get("/del", async (ctx) => {
+router.get("/delAll", async (ctx) => {
   dataArr = [];
   ctx.body = {
     code: 200,
@@ -38,7 +38,7 @@ router.get("/del", async (ctx) => {
 });
 
 router.post("/add1", async (ctx) => {
-  console.log("ctx", ctx);
+  // console.log("ctx", ctx);
 
   dataArr.push(ctx.request.body);
   ctx.body = {
