@@ -10,8 +10,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3 #这里使用了github官方提供的action,checkout项目到虚拟机上
 
-      - name: Install Dependencies
-        run: yarn #执行的命令
+      # - name: Install Dependencies
+      #   run: yarn #执行的命令
       # - name: Build
       #   run: yarn build
 
