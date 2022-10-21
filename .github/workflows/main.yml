@@ -11,7 +11,7 @@ jobs:
         uses: actions/checkout@v3 #这里使用了github官方提供的action,checkout项目到虚拟机上
 
       - name: Install Dependencies
-        run: pnpm #执行的命令
+        run: yarn #执行的命令
       # - name: Build
       #   run: yarn build
 
