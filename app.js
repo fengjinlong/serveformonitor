@@ -1,16 +1,14 @@
 let Koa = require("koa");
 
-//已经引入了koa-art-template的模版
 let router = require("koa-router")();
-// const render = require("koa-art-template");
 const path = require("path");
-// const list = require('./db/index')
 
 const bodyParser = require("koa-bodyparser");
 const cors = require("koa2-cors");
 let app = new Koa();
 app.use(cors());
 let dataArr = [];
+let idPool = [];
 // render(app, {
 //   root: path.join(__dirname, "views"), //规定视图的位置
 //   extname: ".html", //后缀名
@@ -30,6 +28,7 @@ router.get("/findAll", async (ctx) => {
 });
 router.get("/delAll", async (ctx) => {
   dataArr = [];
+  idPool = [];
   ctx.body = {
     code: 200,
     success: 1,
@@ -39,8 +38,25 @@ router.get("/delAll", async (ctx) => {
 
 router.post("/add1", async (ctx) => {
   // console.log("ctx", ctx);
+  // console.log("ctx", ctx.request);
+  // console.log("ctx", ctx.request.body);
 
-  dataArr.push(ctx.request.body);
+  try {
+    // console.log("d", ctx.request.body[0]);
+    // console.log("dddd", Object.keys(ctx.request.body));
+    let ob = JSON.parse(Object.keys(ctx.request.body)[0]);
+
+    // console.log(ob);
+
+    if (ob.id) {
+      if (!idPool.includes(ob.id)) {
+        dataArr.push(ob);
+        idPool.push(ob.id);
+      }
+    }
+  } catch (e) {
+    console.log("err", e);
+  }
   ctx.body = {
     code: 200,
     success: 1,
