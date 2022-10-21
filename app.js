@@ -28,6 +28,14 @@ router.get("/findAll", async (ctx) => {
   let lists = dataArr;
   ctx.body = lists;
 });
+router.get("/del", async (ctx) => {
+  dataArr = [];
+  ctx.body = {
+    code: 200,
+    success: 1,
+    message: "清空成功",
+  };
+});
 
 router.post("/add1", async (ctx) => {
   console.log("ctx", ctx);
@@ -38,19 +46,6 @@ router.post("/add1", async (ctx) => {
     success: 1,
     message: "添加成功",
   };
-  // if (data.code === 1) {
-  //   ctx.body = {
-  //     code: 200,
-  //     success: 1,
-  //     message: "添加成功",
-  //   };
-  // } else {
-  //   ctx.body = {
-  //     code: 200,
-  //     success: 0,
-  //     message: "添加失败",
-  //   };
-  // }
 });
 // router.post("/doAdd", async (ctx) => {
 //   let data = await DB.insert("list", ctx.request.body);
