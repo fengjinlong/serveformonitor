@@ -15,6 +15,7 @@
     "koa": "^2.13.0",
     "koa-bodyparser": "^4.3.0",
     "koa-router": "^9.4.0",
-    "koa2-cors": "^2.0.6"
+    "koa2-cors": "^2.0.6",
+    "nodemailer": "^6.8.0"
   }
 }
