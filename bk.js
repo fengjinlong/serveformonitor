@@ -1,7 +1,9 @@
 let Koa = require("koa");
 const nodemailer = require("nodemailer");
+var fs = require("fs");
 let router = require("koa-router")();
 const path = require("path");
+var sourceMap = require("source-map");
 const render = require("koa-swig");
 const co = require("co");
 const bodyParser = require("koa-bodyparser");
@@ -68,17 +70,107 @@ app.context.render = co.wrap(
     autoescape: true,
     cache: false,
     ext: "html",
+    writeBody: false,
   })
 );
-router.get("/", async (ctx) => {
-  // console.log(ctx.render("index"));
-
-  await ctx.render("index", {
-    dataArr,
-    indicators,
+router.get("/", function* (next) {
+  render("index", {
+    title: "Hello World",
   });
 });
+// const errlist = [];
+// let id = 0;
+// var sourcesPathMap = {};
+// router.post("/report", async (ctx) => {
+//   const paramObj = ctx.request.body;
+//   paramObj.id = ++id;
+//   errlist.push(paramObj);
+//   ctx.body = {};
+// let data = await DB.insert("list", ctx.request.body);
+// if (data.result.ok) {
+//   //进行重定向
+//   ctx.redirect("/");
+// } else {
+//   ctx.redirect("/add");
+// }
+// });
+// router.get("/getDeliteById", async (ctx) => {
+//   var errid = 1;
 
+//   var obj = getItemFromList(errlist, { id: errid });
+//   var url = obj.url,
+//     row = obj.row,
+//     col = obj.col;
+
+//   var filename = path.basename(url);
+//   console.log("pp", filename);
+
+//   lookupSourceMap(
+//     path.join("sm", "index.js" + ".map"),
+//     row,
+//     col,
+//     function (res) {
+//       var source = res.source;
+//       var filename = path.basename(source);
+//       var filepath = path.join(smDir, filename);
+//       console.log({
+//         file: res.sourcesContent,
+//         msg: obj.msg,
+//         source: res.source,
+//         row: res.line,
+//         column: res.column,
+//       });
+//     }
+//   );
+// });
+// function fixPath(filepath) {
+//   return filepath.replace(/\.[\.\/]+/g, "");
+// }
+// function lookupSourceMap(mapFile, line, column, callback) {
+//   fs.readFile(mapFile, function (err, data) {
+//     if (err) {
+//       console.error(err);
+//       return;
+//     }
+
+//     var fileContent = data.toString(),
+//       fileObj = JSON.parse(fileContent),
+//       sources = fileObj.sources;
+
+//     sources.map((item) => {
+//       sourcesPathMap[fixPath(item)] = item;
+//     });
+
+//     var consumer = new sourceMap.SourceMapConsumer(fileContent);
+//     var lookup = {
+//       line: parseInt(line),
+//       column: parseInt(column),
+//     };
+//     var result = consumer.originalPositionFor(lookup);
+
+//     var originSource = sourcesPathMap[result.source],
+//       sourcesContent = fileObj.sourcesContent[sources.indexOf(originSource)];
+
+//     result.sourcesContent = sourcesContent;
+
+//     callback && callback(result);
+//   });
+// }
+// function getItemFromList(list, obj) {
+//   // console.log(list);
+//   var key = Object.keys(obj)[0];
+//   var val = obj[key];
+//   // console.log(key, val); // id 0
+
+//   var res = null;
+//   list.map((item) => {
+//     if (item[key] == val) {
+//       res = item;
+//     }
+//   });
+
+//   return res;
+// }
 app
   .use(router.routes()) /*启动路由*/
   .use(router.allowedMethods()); /* 可配可不配置,建议配置 */

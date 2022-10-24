@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+      crossorigin="anonymous"
+    />
+    <title>hi, man</title>
+  </head>
+  <body>
+    <table class="table table-success table-striped-columns">
+      <thead>
+        <h3 style="text-align: center; padding-top: 20px">错误拦截</h3>
+        <tr>
+          <th scope="col">错误id</th>
+          <th scope="col">错误类型</th>
+          <th scope="col">文件地址</th>
+          <th scope="col">message</th>
+          <th scope="col">href</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for ele in dataArr %}
+        <tr>
+          <td>{{ele.id}}</td>
+          <td>{{ele.type}}</td>
+          <td>{{ele.path}}</td>
+          <td>{{ele.msg}}</td>
+          <td>{{ele.href}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <table class="table table-success table-striped-columns">
+      <thead>
+        <h3 style="text-align: center">页面指标数据</h3>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">首次内容绘制（FCP）</th>
+          <th scope="col">首次有意义绘制（FMP)</th>
+          <th scope="col">可交互时间（TTI）</th>
+          <th scope="col">dns 解析时间</th>
+          <th scope="col">TCP建立连接时间</th>
+          <th scope="col">请求等待时间</th>
+          <th scope="col">文档下载时间</th>
+          <th scope="col">onload页面加载完成时间（所有的资源都解析完了）</th>
+          <th scope="col">页面白屏时间</th>
+          <th scope="col">js内存使用占比</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>时间</td>
+          <td>{{indicators.fcp}}</td>
+          <td>{{indicators.fmp}}</td>
+          <td>{{indicators.tti}}</td>
+          <td>{{indicators.dns}}</td>
+          <td>{{indicators.tcp}}</td>
+          <td>{{indicators.requestPending}}</td>
+          <td>{{indicators.documentDown}}</td>
+          <td>{{indicators.onload}}</td>
+          <td>{{indicators.whiteScreen}}</td>
+          <td>{{indicators.jsmemoey}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>

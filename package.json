@@ -12,9 +12,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "co": "^4.6.0",
     "koa": "^2.13.0",
     "koa-bodyparser": "^4.3.0",
     "koa-router": "^9.4.0",
+    "koa-swig": "^2.2.1",
     "koa2-cors": "^2.0.6",
     "nodemailer": "^6.8.0",
     "source-map": "^0.7.4",
