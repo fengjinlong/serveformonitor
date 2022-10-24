@@ -54,6 +54,14 @@ router.post("/add1", async (ctx) => {
     message: "添加成功",
   };
 });
+let indicators = {};
+router.post("/saveIndicators", async (ctx) => {
+  indicators = ctx.request.body;
+  ctx.body = { status: "ok" };
+});
+router.get("/getIndicators", async (ctx) => {
+  ctx.body = { indicators };
+});
 // const errlist = [];
 // let id = 0;
 // var sourcesPathMap = {};
