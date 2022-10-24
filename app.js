@@ -1,8 +1,9 @@
 let Koa = require("koa");
 const nodemailer = require("nodemailer");
-
+var fs = require("fs");
 let router = require("koa-router")();
 const path = require("path");
+var sourceMap = require("source-map");
 
 const bodyParser = require("koa-bodyparser");
 const cors = require("koa2-cors");
@@ -10,11 +11,7 @@ let app = new Koa();
 app.use(cors());
 let dataArr = [];
 let idPool = [];
-// render(app, {
-//   root: path.join(__dirname, "views"), //规定视图的位置
-//   extname: ".html", //后缀名
-//   debug: process.env.NODE_ENV !== "production", //是否开启调试模式
-// });
+
 app.use(bodyParser());
 
 app.use(async (ctx, next) => {
@@ -38,17 +35,8 @@ router.get("/delAll", async (ctx) => {
 });
 
 router.post("/add1", async (ctx) => {
-  // console.log("ctx", ctx);
-  // console.log("ctx", ctx.request);
-  // console.log("ctx", ctx.request.body);
-
   try {
-    // console.log("d", ctx.request.body[0]);
-    // console.log("dddd", Object.keys(ctx.request.body));
     let ob = JSON.parse(Object.keys(ctx.request.body)[0]);
-
-    // console.log(ob);
-
     if (ob.id) {
       if (!idPool.includes(ob.id)) {
         dataArr.push(ob);
@@ -59,25 +47,106 @@ router.post("/add1", async (ctx) => {
         }
       }
     }
-  } catch (e) {
-    // console.log("err", e);
-  }
+  } catch (e) {}
   ctx.body = {
     code: 200,
     success: 1,
     message: "添加成功",
   };
 });
-// router.post("/doAdd", async (ctx) => {
-//   let data = await DB.insert("list", ctx.request.body);
-//   if (data.result.ok) {
-//     //进行重定向
-//     ctx.redirect("/");
-//   } else {
-//     ctx.redirect("/add");
-//   }
+// const errlist = [];
+// let id = 0;
+// var sourcesPathMap = {};
+// router.post("/report", async (ctx) => {
+//   const paramObj = ctx.request.body;
+//   paramObj.id = ++id;
+//   errlist.push(paramObj);
+//   ctx.body = {};
+// let data = await DB.insert("list", ctx.request.body);
+// if (data.result.ok) {
+//   //进行重定向
+//   ctx.redirect("/");
+// } else {
+//   ctx.redirect("/add");
+// }
 // });
+// router.get("/getDeliteById", async (ctx) => {
+//   var errid = 1;
 
+//   var obj = getItemFromList(errlist, { id: errid });
+//   var url = obj.url,
+//     row = obj.row,
+//     col = obj.col;
+
+//   var filename = path.basename(url);
+//   console.log("pp", filename);
+
+//   lookupSourceMap(
+//     path.join("sm", "index.js" + ".map"),
+//     row,
+//     col,
+//     function (res) {
+//       var source = res.source;
+//       var filename = path.basename(source);
+//       var filepath = path.join(smDir, filename);
+//       console.log({
+//         file: res.sourcesContent,
+//         msg: obj.msg,
+//         source: res.source,
+//         row: res.line,
+//         column: res.column,
+//       });
+//     }
+//   );
+// });
+// function fixPath(filepath) {
+//   return filepath.replace(/\.[\.\/]+/g, "");
+// }
+// function lookupSourceMap(mapFile, line, column, callback) {
+//   fs.readFile(mapFile, function (err, data) {
+//     if (err) {
+//       console.error(err);
+//       return;
+//     }
+
+//     var fileContent = data.toString(),
+//       fileObj = JSON.parse(fileContent),
+//       sources = fileObj.sources;
+
+//     sources.map((item) => {
+//       sourcesPathMap[fixPath(item)] = item;
+//     });
+
+//     var consumer = new sourceMap.SourceMapConsumer(fileContent);
+//     var lookup = {
+//       line: parseInt(line),
+//       column: parseInt(column),
+//     };
+//     var result = consumer.originalPositionFor(lookup);
+
+//     var originSource = sourcesPathMap[result.source],
+//       sourcesContent = fileObj.sourcesContent[sources.indexOf(originSource)];
+
+//     result.sourcesContent = sourcesContent;
+
+//     callback && callback(result);
+//   });
+// }
+// function getItemFromList(list, obj) {
+//   // console.log(list);
+//   var key = Object.keys(obj)[0];
+//   var val = obj[key];
+//   // console.log(key, val); // id 0
+
+//   var res = null;
+//   list.map((item) => {
+//     if (item[key] == val) {
+//       res = item;
+//     }
+//   });
+
+//   return res;
+// }
 app
   .use(router.routes()) /*启动路由*/
   .use(router.allowedMethods()); /* 可配可不配置,建议配置 */
